@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Reverse a Number</title>
+</head>
+<body style="font-family: Arial; text-align: center; margin-top: 100px;">
+
+  <h2>Reverse a Number</h2>
+
+  <input type="number" id="inputNumber" placeholder="Enter a number">
+  <button onclick="reverseNumber()">Reverse</button>
+
+  <h3 id="output"></h3>
+
+  <script>
+    function reverseNumber() {
+      const num = document.getElementById("inputNumber").value;
+      const reversed = num.toString().split('').reverse().join('');
+      document.getElementById("output").innerText = `Reversed Number: ${reversed}`;
+    }
+  </script>
+
+</body>
+</html>

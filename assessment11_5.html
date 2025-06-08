@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Password Generator</title>
+  <style>
+    body {
+      background-color: #2e2727;
+      font-family: Arial, sans-serif;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background-color: #0f1615;
+      padding: 30px;
+      border-radius: 25px;
+      text-align: center;
+      width: 600px;
+    }
+
+    .container h2 {
+      background: white;
+      color: black;
+      padding: 10px;
+      border-radius: 50px;
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
+    #password {
+      background: white;
+      color: black;
+      padding: 10px 20px;
+      border-radius: 25px;
+      border: none;
+      font-size: 18px;
+      width: 80%;
+      text-align: center;
+    }
+
+    .controls {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 15px;
+    }
+
+    .controls label {
+      margin-left: 10px;
+      font-size: 18px;
+    }
+
+    .copy-btn {
+      background: white;
+      color: black;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 25px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-left: 10px;
+    }
+
+    .options {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      align-items: center;
+      font-size: 16px;
+    }
+
+    input[type="range"] {
+      accent-color: #1e90ff;
+    }
+
+    .checkbox-group {
+      display: flex;
+      gap: 15px;
+    }
+
+    input[type="checkbox"] {
+      transform: scale(1.2);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Password - Generator</h2>
+    <div class="controls">
+      <input type="text" id="password" readonly>
+      <button class="copy-btn" onclick="copyPassword()">Copy</button>
+    </div>
+    <div class="options">
+      <label>Length <span id="lengthValue">12</span></label>
+      <input type="range" min="5" max="30" value="12" id="lengthSlider">
+      <div class="checkbox-group">
+        <label><input type="checkbox" id="includeChars" checked> Characters</label>
+        <label><input type="checkbox" id="includeNums" checked> Numbers</label>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const passwordField = document.getElementById('password');
+    const lengthSlider = document.getElementById('lengthSlider');
+    const lengthValue = document.getElementById('lengthValue');
+    const includeChars = document.getElementById('includeChars');
+    const includeNums = document.getElementById('includeNums');
+
+    const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_+=-[]{}|;:,.<>?/~`';
+    const nums = '0123456789';
+
+    function generatePassword() {
+      let allowed = '';
+      if (includeChars.checked) allowed += chars;
+      if (includeNums.checked) allowed += nums;
+
+      let password = '';
+      for (let i = 0; i < lengthSlider.value; i++) {
+        const index = Math.floor(Math.random() * allowed.length);
+        password += allowed[index];
+      }
+
+      passwordField.value = password;
+    }
+
+    function copyPassword() {
+      navigator.clipboard.writeText(passwordField.value).then(() => {
+        alert("Password copied to clipboard!");
+      });
+    }
+
+    // Initialize
+    lengthSlider.addEventListener('input', () => {
+      lengthValue.textContent = lengthSlider.value;
+      generatePassword();
+    });
+
+    includeChars.addEventListener('change', generatePassword);
+    includeNums.addEventListener('change', generatePassword);
+
+    generatePassword(); // Generate on load
+  </script>
+</body>
+</html>
